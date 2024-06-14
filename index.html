@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixture de Pádel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Fixture de Pádel</h1>
+    </header>
+    <main class="container">
+        <section class="teams">
+            <h2>Equipos</h2>
+            <div class="input-group">
+                <input type="text" id="team" placeholder="Nombre del Equipo">
+                <button onclick="addTeam()">Agregar Equipo</button>
+            </div>
+            <div id="teamList" class="team-list">
+                <!-- Aquí se mostrarán los equipos agregados -->
+            </div>
+        </section>
+        <section class="fixtures">
+            <h2>Fixture</h2>
+            <div id="matches" class="matches">
+                <!-- Aquí se mostrarán los partidos del fixture -->
+            </div>
+            <button onclick="generateFixtures()">Generar Fixture</button>
+        </section>
+        <section class="results">
+            <h2>Resultados</h2>
+            <div id="results" class="results">
+                <!-- Aquí se mostrarán los resultados de los partidos -->
+            </div>
+            <div id="winner" class="winner"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
