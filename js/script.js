@@ -49,7 +49,6 @@ function generateFixtures() {
     calculatePoints(); // Calcular y mostrar los puntos después de generar los fixtures
 }
 
-
 // Función para mostrar los fixtures en la UI
 function displayFixtures() {
     const fixturesDiv = document.getElementById('fixtures'); // Obtener el contenedor de los fixtures
@@ -87,7 +86,7 @@ function updateScore(index, scoreKey, value) {
     calculatePoints(); // Recalcular y mostrar los puntos después de actualizar el puntaje
 }
 
-// Función para calcular y mostrar los puntos de los equipos
+// Función para calcular los puntos de los equipos
 function calculatePoints() {
     const points = {}; // Objeto para almacenar los puntos de cada equipo
     teams.forEach(team => points[team] = 0); // Inicializar los puntos de todos los equipos en 0
@@ -98,13 +97,13 @@ function calculatePoints() {
             points[fixture.team1] += 3; // 3 puntos para el equipo 1 si gana
         } else if (fixture.score2 > fixture.score1) {
             points[fixture.team2] += 3; // 3 puntos para el equipo 2 si gana
-        } else {
-            points[fixture.team1] += 1; // 1 punto para ambos equipos si empatan
-            points[fixture.team2] += 1;
+        //} else if (fixture.score1 === fixture.score2) {
+        //    points[fixture.team1] += 1; // 1 punto para ambos equipos si empatan
+        //    points[fixture.team2] += 1;
         }
     });
 
-    displayPoints(points); // Mostrar los puntos calculados en la UI
+    displayPoints(points); // Mostrar los puntos en la UI
 }
 
 // Función para mostrar los puntos en la UI
@@ -113,7 +112,7 @@ function displayPoints(points) {
     if (!pointsDiv) {
         pointsDiv = document.createElement('div'); // Crear el contenedor si no existe
         pointsDiv.id = 'points';
-        document.querySelector('.container').appendChild(pointsDiv); // Añadir el contenedor al cuerpo del documento
+        document.getElementById('fixtures').after(pointsDiv); // Añadir el contenedor después de fixtures
     }
 
     pointsDiv.innerHTML = '<h2>Puntuaciones</h2>'; // Añadir un encabezado al contenedor
