@@ -1,3 +1,5 @@
+// script.js
+
 // Array para almacenar los nombres de los equipos
 let teams = [];
 // Array para almacenar los fixtures generados
@@ -5,23 +7,23 @@ let fixtures = [];
 
 // Función para añadir un equipo
 function addTeam() {
-    const teamInput = document.getElementById('team-input'); // Obtener el input del equipo
-    const teamName = teamInput.value.trim(); // Obtener y limpiar el valor del input
-    if (teamName) { // Verificar si el nombre del equipo no está vacío
-        teams.push(teamName); // Añadir el equipo al array de equipos
-        updateTeamList(); // Actualizar la lista de equipos en la UI
-        teamInput.value = ''; // Limpiar el input
+    const teamInput = document.getElementById('team-input');
+    const teamName = teamInput.value.trim();
+    if (teamName) {
+        teams.push(teamName);
+        updateTeamList();
+        teamInput.value = '';
     }
 }
 
 // Función para actualizar la lista de equipos en la UI
 function updateTeamList() {
-    const teamList = document.getElementById('team-list'); // Obtener el elemento de la lista de equipos
-    teamList.innerHTML = ''; // Limpiar el contenido actual de la lista
+    const teamList = document.getElementById('team-list');
+    teamList.innerHTML = '';
     teams.forEach((team, index) => {
-        const li = document.createElement('li'); // Crear un elemento de lista
-        li.textContent = team; // Establecer el nombre del equipo como contenido del elemento
-        teamList.appendChild(li); // Añadir el elemento a la lista
+        const li = document.createElement('li');
+        li.textContent = team;
+        teamList.appendChild(li);
     });
 }
 
@@ -51,82 +53,79 @@ function generateFixtures() {
 
 // Función para mostrar los fixtures en la UI
 function displayFixtures() {
-    const fixturesDiv = document.getElementById('fixtures'); // Obtener el contenedor de los fixtures
-    fixturesDiv.innerHTML = ''; // Limpiar el contenido actual del contenedor
+    const fixturesDiv = document.getElementById('fixtures');
+    fixturesDiv.innerHTML = '';
 
     fixtures.forEach((fixture, index) => {
-        const fixtureDiv = document.createElement('div'); // Crear un contenedor para el fixture
-        fixtureDiv.classList.add('fixture'); // Añadir clase CSS al contenedor
+        const fixtureDiv = document.createElement('div');
+        fixtureDiv.classList.add('fixture');
 
-        const teamsP = document.createElement('p'); // Crear un elemento de párrafo
-        teamsP.textContent = `${fixture.team1} vs ${fixture.team2}`; // Establecer el texto del enfrentamiento
-        fixtureDiv.appendChild(teamsP); // Añadir el párrafo al contenedor del fixture
+        const teamsP = document.createElement('p');
+        teamsP.textContent = `${fixture.team1} vs ${fixture.team2}`;
+        fixtureDiv.appendChild(teamsP);
 
-        // Crear y configurar el input para el puntaje del equipo 1
         const score1Input = document.createElement('input');
         score1Input.type = 'number';
         score1Input.value = fixture.score1;
         score1Input.onchange = (event) => updateScore(index, 'score1', event.target.value);
-        fixtureDiv.appendChild(score1Input); // Añadir el input al contenedor del fixture
+        fixtureDiv.appendChild(score1Input);
 
-        // Crear y configurar el input para el puntaje del equipo 2
         const score2Input = document.createElement('input');
         score2Input.type = 'number';
         score2Input.value = fixture.score2;
         score2Input.onchange = (event) => updateScore(index, 'score2', event.target.value);
-        fixtureDiv.appendChild(score2Input); // Añadir el input al contenedor del fixture
+        fixtureDiv.appendChild(score2Input);
 
-        fixturesDiv.appendChild(fixtureDiv); // Añadir el contenedor del fixture al contenedor de fixtures
+        fixturesDiv.appendChild(fixtureDiv);
     });
 }
 
 // Función para actualizar el puntaje de un equipo en un fixture
 function updateScore(index, scoreKey, value) {
-    fixtures[index][scoreKey] = parseInt(value, 10) || 0; // Actualizar el puntaje en el array de fixtures
-    calculatePoints(); // Recalcular y mostrar los puntos después de actualizar el puntaje
+    fixtures[index][scoreKey] = parseInt(value, 10) || 0;
+    calculatePoints();
 }
 
 // Función para calcular los puntos de los equipos
 function calculatePoints() {
-    const points = {}; // Objeto para almacenar los puntos de cada equipo
-    teams.forEach(team => points[team] = 0); // Inicializar los puntos de todos los equipos en 0
+    const points = {};
+    teams.forEach(team => points[team] = 0);
 
-    // Calcular los puntos basados en los resultados de los fixtures
     fixtures.forEach(fixture => {
         if (fixture.score1 > fixture.score2) {
             points[fixture.team1] += 3; // 3 puntos para el equipo 1 si gana
         } else if (fixture.score2 > fixture.score1) {
             points[fixture.team2] += 3; // 3 puntos para el equipo 2 si gana
-        //} else if (fixture.score1 === fixture.score2) {
-        //    points[fixture.team1] += 1; // 1 punto para ambos equipos si empatan
-        //    points[fixture.team2] += 1;
+        } else if (fixture.score1 === fixture.score2 && fixture.score1 !== 0 && fixture.score2 !== 0) {
+            points[fixture.team1] += 1; // 1 punto para ambos equipos si empatan
+            points[fixture.team2] += 1;
         }
     });
 
-    displayPoints(points); // Mostrar los puntos en la UI
+    displayPoints(points);
 }
 
 // Función para mostrar los puntos en la UI
 function displayPoints(points) {
-    let pointsDiv = document.getElementById('points'); // Obtener el contenedor de los puntos
+    let pointsDiv = document.getElementById('points');
     if (!pointsDiv) {
-        pointsDiv = document.createElement('div'); // Crear el contenedor si no existe
+        pointsDiv = document.createElement('div');
         pointsDiv.id = 'points';
-        document.getElementById('fixtures').after(pointsDiv); // Añadir el contenedor después de fixtures
+        document.getElementById('fixtures').after(pointsDiv);
     }
 
-    pointsDiv.innerHTML = '<h2>Puntuaciones</h2>'; // Añadir un encabezado al contenedor
-    const pointsTable = document.createElement('table'); // Crear una tabla para mostrar los puntos
+    pointsDiv.innerHTML = '<h2>Puntuaciones</h2>';
+    const pointsTable = document.createElement('table');
     for (const team in points) {
-        const row = document.createElement('tr'); // Crear una fila para cada equipo
-        const teamCell = document.createElement('td'); // Crear una celda para el nombre del equipo
-        teamCell.textContent = team; // Establecer el nombre del equipo en la celda
-        const pointsCell = document.createElement('td'); // Crear una celda para los puntos del equipo
-        pointsCell.textContent = points[team]; // Establecer los puntos en la celda
-        row.appendChild(teamCell); // Añadir la celda del equipo a la fila
-        row.appendChild(pointsCell); // Añadir la celda de puntos a la fila
-        pointsTable.appendChild(row); // Añadir la fila a la tabla
+        const row = document.createElement('tr');
+        const teamCell = document.createElement('td');
+        teamCell.textContent = team;
+        const pointsCell = document.createElement('td');
+        pointsCell.textContent = points[team];
+        row.appendChild(teamCell);
+        row.appendChild(pointsCell);
+        pointsTable.appendChild(row);
     }
 
-    pointsDiv.appendChild(pointsTable); // Añadir la tabla al contenedor de puntos
+    pointsDiv.appendChild(pointsTable);
 }
