@@ -82,7 +82,20 @@ function displayFixtures() {
 
 // Función para actualizar el puntaje de un equipo en un fixture
 function updateScore(index, scoreKey, value) {
-    fixtures[index][scoreKey] = parseInt(value, 10) || 0;
+    const score = parseInt(value, 10) || 0;
+    fixtures[index][scoreKey] = score;
+
+    // Deshabilitar los campos de entrada de puntaje después de ingresar los puntajes para ambos equipos
+    const fixture = fixtures[index];
+    if (fixture.score1 > 0 || fixture.score2 > 0) {
+        const fixtureDiv = document.getElementsByClassName('fixture')[index];
+        const inputs = fixtureDiv.getElementsByTagName('input');
+        if (fixture.score1 > 0 && fixture.score2 > 0) {
+            inputs[0].disabled = true;
+            inputs[1].disabled = true;
+        }
+    }
+
     calculatePoints();
 }
 

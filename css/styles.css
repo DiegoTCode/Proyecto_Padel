@@ -1,10 +1,11 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #5f1111;
+    min-height: 100vh;
+    background-color: #f0f0f0;
     margin: 0;
 }
 
@@ -15,6 +16,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     width: 100%;
+    overflow: hidden; /* Para asegurarse de que el contenido no se desborde */
 }
 
 h1 {
@@ -32,9 +34,16 @@ input {
     margin-right: 10px;
 }
 
+.team-list-container {
+    max-height: 150px; /* Ajusta la altura según sea necesario */
+    overflow-y: auto; /* Hace que la lista sea desplazable */
+    margin-bottom: 20px;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
@@ -81,33 +90,43 @@ button:hover {
     margin-left: 10px;
 }
 
-
 #points {
-    
     margin-top: 20px;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#points h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-#points table {
+table {
     width: 100%;
     border-collapse: collapse;
 }
 
-#points td {
+td {
     padding: 10px;
     border: 1px solid #ddd;
-    text-align: center;
 }
 
-#points td:first-child {
+td:nth-child(1) {
     text-align: left;
+}
+
+td:nth-child(2) {
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    input {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
 }
